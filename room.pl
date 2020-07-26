@@ -17,50 +17,49 @@ tile(N, M, X, Y, C) :-
   (h_wall(N, M, X, Y), C = '-') ;
   (corner(N, M, X, Y), C = ' ').
 
-row_rec(_, M, X, _, []) :- X > M.
-row_rec(N, M, X, R, [H|T]) :-
+row(_, M, X, _, []) :- X > M.
+row(N, M, X, R, [H|T]) :-
   tile(N, M, X, R, H),
   X1 is X + 1,
-  row_rec(N, M, X1, R, T).
+  row(N, M, X1, R, T).
 
 row(N, M, R, T) :-
-  row_rec(N, M, 1, R, T).
+  row(N, M, 1, R, T).
 
-room_rec(N, _, Y, []) :- Y > N.
-room_rec(N, M, Y, [H|T]) :-
+room(N, _, Y, []) :- Y > N.
+room(N, M, Y, [H|T]) :-
   row(N, M, Y, H),
   Y1 is Y + 1,
-  room_rec(N, M, Y1, T).
+  room(N, M, Y1, T).
 
-room(N, M, L) :-
-  room_rec(N, M, 1, L).
+room(N, M, T) :-
+  room(N, M, 1, T).
 
-writeAt(C, X, Y) :-
+write_at(C, X, Y) :-
   tty_goto(X, Y),
   tty_put(C, 1).
 
-drawRow(M, X, _, []) :- X > M.
-drawRow(M, X, Y, [H|T]) :-
-  writeAt(H, X, Y),
+draw_row(M, X, _, []) :- X > M.
+draw_row(M, X, Y, [H|T]) :-
+  write_at(H, X, Y),
   X1 is X + 1,
-  drawRow(M, X1, Y, T).
+  draw_row(M, X1, Y, T).
 
-draw_room_rec(N, _, _, Y, []) :- Y > N.
-draw_room_rec(N, M, _, Y, [H|T]) :-
-  drawRow(M, 1, Y, H),
+draw_room(N, _, _, Y, []) :- Y > N.
+draw_room(N, M, _, Y, [H|T]) :-
+  draw_row(M, 1, Y, H),
   Y1 is Y + 1,
-  draw_room_rec(N, M, 1, Y1, T).
+  draw_room(N, M, 1, Y1, T).
 
 draw_room(Tiles) :-
   length(Tiles, N),
   [Row|_] = Tiles,
   length(Row, M),
-  draw_room_rec(N, M, 1, 1, Tiles).
+  draw_room(N, M, 1, 1, Tiles).
 
 draw_random_room() :-
-  random(3, 8, N),
-  random(3, 8, M),
+  random(5, 12, N),
+  random(5, 12, M),
   room(N, M, Tiles),
   tty_clear,
   draw_room(Tiles).
-  

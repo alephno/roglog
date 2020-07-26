@@ -6,7 +6,7 @@ so unfamiliar to me I have made a roadmap below.
 ## STAGE 1 [2/4]
 1. [X] Print a room with walls represented as # and floors represented as .
 2. [X] Generate a random room
-3. [ ] Generate several random rooms that fit onto the screen
+3. [X] Generate several random rooms that fit onto the screen
 4. [ ] The rooms are connected by floor tiles
 
 ## STAGE 2
